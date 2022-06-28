@@ -1,0 +1,51 @@
+{% extends "blog/parent/base.html" %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/accountform.css' %}">
+{% endblock %}
+{% block content %}
+<h1 class="test">User Account Form</h1>
+    <br><br><br>
+    <form method="post" class="myform">
+    {% csrf_token %}
+   <br> Name :
+        <b><input type="text" style="color: darkgreen" name="firstname" required {% if form.firstname.value %} value="{{ form.firstname.value }}"{% else %} value="{{ account.user.first_name|default:''}}" {% endif %}></b>
+    <br>
+    <br>Last Name :
+        <b><input type="text" style="color: darkgreen" name="lastname" required {% if form.lastname.value %} value="{{ form.lastname.value }}"{% else %} value="{{ account.user.last_name | default:'' }}" {% endif %}></b>
+    <br>
+    <br>Phone Number :
+        <b><input type="text" name="phone" style="color: darkgreen"  value="{{ account.phone|default:'' }}"></b>
+    <br>
+    <br>Sex :
+        <b><input type="radio" name="sex" value="male" {% if account.sex == 'male' %} checked {% endif %}></b>
+        male
+        <b><input type="radio" name="sex" value="female" {% if account.sex == 'female' %} checked {% endif %}></b>
+        female
+    <br>
+    <br>Age :
+        <b><input type="number" style="color: darkgreen" name="age" required {% if form.age.value %} value="{{ form.age.value }}"{% else %} value="{{ account.age | default:'' }}" {% endif %}></b>
+    <br>
+    <br>Address :<br>
+        <b><textarea name="address"  {% if form.address.value %} {{ form.address.value }} {% else %} {{ account.address|default:''}} {% endif %}></textarea></b>
+
+    <br><br><br><br>
+    <div class="center"><button type="Submit" style="background: #5471F1;border-radius: 7px" >submit</button></div>
+    <br>
+    </form>
+    {% if form.errors %}
+        please edit these errors:
+        <br>
+        {% for field in form%}
+            {% if field.errors %}
+                {% for error in field.errors %}
+                    <p style="color: darkred"> {{ field.label }} : {{ error }}</p>
+                {% endfor %}
+
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% if form.non_field_errors %}
+        {{ form.non_field_errors }}
+    {% endif %}
+{% endblock %}

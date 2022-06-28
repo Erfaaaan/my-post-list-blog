@@ -1,0 +1,43 @@
+{% extends "blog/parent/base.html" %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/contactusform.css' %}">
+{% endblock %}
+{% block content %}
+    <h1  class="test">Share</h1>
+
+    <br><br><br>
+    <form method="post" class="myform">
+        {% csrf_token %}
+        <br> Name :
+            <b><input type="text" style="color: darkgreen" name="name" required {% if form.name.value %} value="{{ form.name.value }}"{% else %} value="{{ account.user.first_name |default:''}} {{ account.user.last_name |default:''}}" {% endif %}></b>
+        <br>
+        <br> To :
+                <b><input type="email" style="color: darkgreen" name="to" required style="color: darkgreen"  {% if form.to.value %} value="{{ form.to.value }}" {% endif %}></b>
+
+        <br><br>
+        <p style="color: green">
+        {% if sent == True %}
+            Email sent correctly
+        {% endif %}
+        </p>
+        <br><br>
+        <div class="center"><button type="Submit" style="background: #E5D8C7;border-radius: 7px" >submit</button></div>
+        <br>
+    </form>
+    {% if form.errors %}
+        please edit these errors:
+        <br>
+        {% for field in form%}
+            {% if field.errors %}
+                {% for error in field.errors %}
+                    <p style="color: darkred"> {{ field.label }} : {{ error }}</p>
+                {% endfor %}
+
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% if form.non_field_errors %}
+        {{ form.non_field_errors }}
+    {% endif %}
+{% endblock %}

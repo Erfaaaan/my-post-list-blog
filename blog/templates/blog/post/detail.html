@@ -1,0 +1,48 @@
+{% extends "blog/parent/base.html" %}
+{% load static %}
+{% block title %} detail {% endblock %}
+{% block head %}
+     <link rel="stylesheet" type="text/css" href="{% static 'css/detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<h4 class="test">Author :</h4>
+<p>{{ post.author }}<br><br></p>
+<h4 class="test">Title :</h4>
+<p>{{ post.title }}<br><br></p>
+<h4 class="test">Caption :</h4>
+<p>{{ post.body|linebreaks }}<br><br><br><br><br><br></p>
+<h5 class="test">{{ post.publish }}</h5>
+<br><br><b><li><a href="{% url 'blog:share' post.id %}" style="color: darkgreen">Share</a></li></b>
+<br><br><br><br>
+<div>
+    {% with comments.count as count %}
+        count : {{ count }}
+        <br>
+        {% for comment in comments %}
+            {{ comment.name }}
+            <br>
+            {{ forloop.counter }} : {{ comment.body }}
+            <br>
+        {% empty %}
+            No comment !
+        {% endfor %}
+    {% endwith %}
+    <div>
+        {% if new_comment %}
+            comment sent
+        {% endif %}
+    <br>
+    <h2>
+        Add new comment :
+    </h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+
+    </div>
+
+</div>
+{% endblock %}

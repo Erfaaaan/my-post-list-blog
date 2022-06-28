@@ -1,0 +1,39 @@
+{% extends "blog/parent/base.html" %}
+{% load static %}
+{% block title %} list {% endblock %}
+{% block head %}
+     <link rel="stylesheet" type="text/css" href="{% static 'css/list4.css' %}">
+{% endblock %}
+{% block content %}
+<div class="center">
+    <h1 class="test"> My Post List</h1>
+        <br><br>
+        {% if tag %}
+            posts with {{ tag.name }} tag
+        {% endif %}
+        <br><br>
+    {% for post in posts %}
+        <a href="{{ post.get_absolute_url }}" class="link">
+            <div class="post">
+                <br>
+                <h2 class="user">{{ post.author }}</h2>
+                <br>
+                <h3 class="posttitle">{{ post.title }}</h3>
+                <br><br>
+                <div class="bodypost">{{ post.body|truncatewords:3}}<br><br><br><br></div>
+                {% for tag in post.tags.all %}
+
+                    <a href="{% url "blog:postlist_tag" tag.slug %}" style="color: dimgray">{{tag.name}}</a>
+                    {% if not forloop.last %} , {% endif %}
+                {% endfor %}
+                <br><br><br><br>
+            </div>
+        </a>
+    {% endfor %}
+    <br><br>
+    {% include "blog/partials/pagination.html" with page=posts %}
+    <br>
+</div>
+<b><li><a href="{% url 'blog:accountform'  %}" style="color: darkgreen">Sign In</a></li></b>
+<b><li><a href="{% url 'blog:contactus'  %}" style="color: darkgreen">Contact Us</a></li></b>
+{% endblock %}

@@ -1,0 +1,23 @@
+.center {
+  text-align: center;
+}
+.test{
+    text-align: center;
+    padding: 2px;
+    margin: 0 400px;
+    color: white;
+    background-color: #5471F1;
+    border-radius: 20px;
+}
+.myform{
+    border-radius: 20px;
+    margin:0 350px;
+    background-color: #B4BEC3;
+    text-align: left;
+    color: #062737;
+
+}
+button{
+    text-align: center;
+
+}
